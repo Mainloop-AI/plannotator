@@ -168,6 +168,16 @@
     "packages/ai": {
       "name": "@plannotator/ai",
       "version": "0.0.1",
+      "dependencies": {
+        "@plannotator/core": "workspace:*",
+      },
+    },
+    "packages/core": {
+      "name": "@plannotator/core",
+      "version": "0.21.0",
+      "devDependencies": {
+        "typescript": "~5.8.2",
+      },
     },
     "packages/editor": {
       "name": "@plannotator/editor",
@@ -235,6 +245,7 @@
       "version": "0.0.1",
       "dependencies": {
         "@joplin/turndown-plugin-gfm": "^1.0.64",
+        "@plannotator/core": "workspace:*",
         "parse5": "^7.3.0",
         "turndown": "^7.2.4",
       },
@@ -803,6 +814,8 @@
     "@pierre/theme": ["@pierre/theme@1.0.3", "", {}, "sha512-sWHv11TMoqKxKDgTIk5VbhQjdPhs8DCcBxbjh3mRlS3YOM/OcrWoGX6MM8eBGn9cUu3M46Py0JnxsG2nJaFTuA=="],
 
     "@plannotator/ai": ["@plannotator/ai@workspace:packages/ai"],
+
+    "@plannotator/core": ["@plannotator/core@workspace:packages/core"],
 
     "@plannotator/editor": ["@plannotator/editor@workspace:packages/editor"],
 
