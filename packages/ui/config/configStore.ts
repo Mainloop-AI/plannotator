@@ -29,6 +29,18 @@ function deepMerge(target: Record<string, unknown>, source: Record<string, unkno
   }
 }
 
+/** Server write-back transport: posts a batch of changed server-synced settings. */
+type ServerSyncFn = (payload: Record<string, unknown>) => void;
+
+/** Default = today's inline POST /api/config (best-effort). */
+const defaultServerSync: ServerSyncFn = (payload) => {
+  fetch('/api/config', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  }).catch(() => {}); // best-effort
+};
+
 /** Infer the value type from a SettingDef */
 type SettingValue<K extends SettingName> = SettingsMap[K] extends { defaultValue: infer D }
   ? D extends (...args: unknown[]) => infer R ? R : D
@@ -40,6 +52,7 @@ class ConfigStore {
   private version = 0;
   private pendingServerWrites: Record<string, unknown> = {};
   private serverSyncTimer: ReturnType<typeof setTimeout> | null = null;
+  private serverSync: ServerSyncFn = defaultServerSync;
 
   constructor() {
     // Eagerly resolve all settings from synchronous sources (cookie > default).
@@ -105,6 +118,11 @@ class ConfigStore {
     return () => this.listeners.delete(listener);
   }
 
+  /** Override the server write-back transport (default = inline POST /api/config). */
+  setServerSync(fn: ServerSyncFn): void {
+    this.serverSync = fn;
+  }
+
   private notify(): void {
     this.version++;
     for (const fn of this.listeners) fn();
@@ -115,11 +133,7 @@ class ConfigStore {
     this.serverSyncTimer = setTimeout(() => {
       const payload = { ...this.pendingServerWrites };
       this.pendingServerWrites = {};
-      fetch('/api/config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).catch(() => {}); // best-effort
+      this.serverSync(payload);
     }, 300);
   }
 }
