@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import type { DefaultDiffType } from '@plannotator/shared/config';
+import type { DefaultDiffType } from '@plannotator/core/config-types';
 import { markDiffTypeSetupDone } from '../utils/diffTypeSetup';
 import { configStore } from '../config';
 import diffOptionsImg from '../assets/diff-options.png';
