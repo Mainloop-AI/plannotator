@@ -22,7 +22,7 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -45,7 +45,7 @@ jobs:
 
   build:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
     # Build job has NO id-token / attestations permissions. Compilation
     # itself doesn't need OIDC minting — those capabilities live in the
     # separate `attest` job below, which only runs on tag pushes. This
@@ -135,9 +135,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: blacksmith-2vcpu-ubuntu-2604
             binary: plannotator-linux-x64
-          - os: windows-latest
+          - os: blacksmith-2vcpu-windows-2025
             binary: plannotator-win32-x64.exe
 
     steps:
@@ -477,7 +477,7 @@ jobs:
     # npm-style `pi` shim pair. The binary smoke above covers the compiled Bun
     # CLI, but the published Pi extension uses this separate Node path.
     name: Pi extension AI runtime (Windows)
-    runs-on: windows-latest
+    runs-on: blacksmith-2vcpu-windows-2025
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
@@ -511,7 +511,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: blacksmith-2vcpu-ubuntu-2604
             artifact: plannotator-linux-x64
 
     steps:
@@ -661,7 +661,7 @@ jobs:
       - pi-extension-ai-runtime-windows
       - install-script-smoke
     if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
     permissions:
       contents: read
       id-token: write
@@ -697,7 +697,7 @@ jobs:
     # race-fail. `needs: attest` implicitly requires `build` too.
     needs: attest
     if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
     permissions:
       contents: write
 
@@ -727,7 +727,7 @@ jobs:
       - smoke-binaries
       - pi-extension-ai-runtime-windows
       - install-script-smoke
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
     permissions:
       contents: read
       id-token: write

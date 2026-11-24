@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2604
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -40,7 +40,7 @@ jobs:
     # resolves the extensionless shim before pi.cmd and the Ask AI provider
     # crashes before the plan review UI opens.
     name: Pi extension AI runtime (Windows)
-    runs-on: windows-latest
+    runs-on: blacksmith-2vcpu-windows-2025
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
@@ -74,7 +74,7 @@ jobs:
     # settings.json fixture so the Gemini merge path actually executes and
     # any regression of #506 (or similar cmd-parser bugs) fails CI.
     name: install.cmd (Windows integration)
-    runs-on: windows-latest
+    runs-on: blacksmith-2vcpu-windows-2025
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
@@ -327,7 +327,7 @@ jobs:
     # This specifically covers PLANNOTATOR_DATA_DIR tilde expansion because
     # installer config lookup happens before any shared runtime code is loaded.
     name: install.ps1 (Windows integration)
-    runs-on: windows-latest
+    runs-on: blacksmith-2vcpu-windows-2025
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
